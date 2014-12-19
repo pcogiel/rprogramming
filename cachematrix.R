@@ -6,32 +6,33 @@
 
 makeCacheMatrix <- function(mt = matrix()){
         m <- NULL
-        set <- function(y){		## setter - setting the makeCacheMatrix variables
+        set <- function(y){				## setter - setting the makeCacheMatrix variables
                 mt <<- y
                 m <<- NULL
         }         
 		
-		get <- function() mt	## getter - getting mt (makeCacheMatrix argument) value
+	get <- function() mt				## getter - getting mt (makeCacheMatrix argument) value
 		
-		setInv <- function(solve) m <<- solve		## setter - setting m (inverse matrix)
-        getInv <- function() m						## getter - getting m value
-        list(set = set, get = get,					## returned list of functions
-             setInv = setInv,
-             getInv = getInv)
+	setInv <- function(solve) m <<- solve		## setter - setting m (inverse matrix)
+        getInv <- function() m				## getter - getting m value
+        list(set = set, get = get,		        ## returned list of functions
+             	setInv = setInv,
+             	getInv = getInv)
 }
 
 ## "cacheSolve" function takes as an argument list returned by "makeCacheMatrix". 
 ## Firstly, it checks if the inverse has already been calculated. In case it was, function returns the cached value of inverse. Otherwise, inverse matrix is calculated and the result is returned.
 
 cacheSolve <- function(x, ...){
-		m <- x$getInv()								## get the cached value
-		if(!is.null(m)){							## if the value is not empty, cache is returned 
-				message("Getting cached data")
-				return(m)
-		}
-		
-		data <- x$get()								## otherwise, get matrix 
-		m <- solve(data, ...)						## and calculate inverted matrix 
-		x$setInv(m)									## set cached value 
-		m											
+        m <- x$getInv()					      ## get the cached value
+	
+	if(!is.null(m)){				      ## if the value is not empty, cache is returned
+		message("Getting cached data")
+		return(m)
+	}
+	
+	data <- x$get()					      ## otherwise, get matrix 
+	m <- solve(data, ...)		              	      ## and calculate inverted matrix 
+	x$setInv(m)					      ## set cached value 
+	m											
 }
